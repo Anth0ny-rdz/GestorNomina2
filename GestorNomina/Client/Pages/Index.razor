@@ -1,0 +1,53 @@
+﻿@page "/"
+
+@inject HttpClient Http
+
+
+<EditForm Model="NuevoEmpleado">
+	<InputText @bind-Value=NuevoEmpleado.Nombre></InputText>
+
+	<button @onclick="(()=>CrearEmpleado(NuevoEmpleado))">Crear Empleado</button>
+</EditForm>
+<br />
+
+<EditForm Model="NuevoEmpleado">
+	<InputNumber @bind-Value=NuevoEmpleado.Id></InputNumber>
+
+	<button @onclick="(()=>EliminarEmpleado(NuevoEmpleado.Id))">Eliminar Empleado</button>
+</EditForm>
+
+<br />
+<EditForm Model="NuevoEmpleado">
+	<InputNumber @bind-Value=NuevoEmpleado.Id></InputNumber>
+	<InputText @bind-Value=NuevoEmpleado.Nombre></InputText>
+	<button @onclick="(()=>ActualizarEmpleado(NuevoEmpleado))">Actualizar Empleado</button>
+</EditForm>
+
+
+
+@code {
+	Empleado NuevoEmpleado = new Empleado();
+
+
+
+	public async Task CrearEmpleado(Empleado miempleado)
+	{
+		var resultado = await Http.PostAsJsonAsync("api/Empleado", miempleado);
+	}
+
+	public async Task EliminarEmpleado(int id)
+	{
+		var result = await Http.DeleteAsync($"api/Empleado/{id}");
+
+	}
+
+
+	public async Task ActualizarEmpleado(Empleado miempleado)
+	{
+		var result = await Http.PutAsJsonAsync($"api/Empleado/{miempleado.Id}", miempleado);
+	}
+
+}
+
+
+
